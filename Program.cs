@@ -16,6 +16,8 @@ var key = Encoding.ASCII.GetBytes(Settings.Secret);
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors();
+
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -67,6 +69,11 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UsePathBase("/swagger/index.html");
+
+app.UseCors(x => x.AllowAnyHeader()
+      .AllowAnyMethod()
+      .WithOrigins("*"));
+
 app.UseAuthentication();
 app.UseAuthorization();
 
