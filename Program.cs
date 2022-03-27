@@ -221,12 +221,12 @@ app.MapPost($"{BASE_ENDPOINT}/users/login", async (User user, AutenticacaoDbCont
     var dbUser = await context.Users.FirstOrDefaultAsync(u => u.Username == user.Username);
 
     if (dbUser == null)
-        return Results.NotFound(new { message = "Usuário ou senha inválidos" });
+        return Results.NotFound(new { message = "Credenciais inválidas" });
 
     var validPassword = BCrypt.Net.BCrypt.Verify(user.Password, dbUser.Password);
 
     if (!validPassword)
-        return Results.NotFound(new { message = "Usuário ou senha inválidos" });
+        return Results.NotFound(new { message = "Credenciais inválidas" });
 
     var token = TokenService.GenerateToken(dbUser);
 
